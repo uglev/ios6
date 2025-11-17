@@ -4,6 +4,9 @@ Telegram/mail client for older versions of iPhone 4s (iOS 6)
 Вы фанат стареньких iPhone, в частности, iPhone 4s на iOS 6.1.3? Уже давно не работает Telegram и почта, а вы всё хотите им пользоваться? Тогда проект для Вас.
 Итак, что он может. Вы заходите на сайт, и читаете все свежие новости с почты и Телеграмма и даже отвечаете на них! А если не отвечаете, тогда сообщение сразу отправляется в папку "Избранное" Телеграмма.
 
+<img width="660" height="832" alt="Screenshot 2025-11-17 213900" src="https://github.com/user-attachments/assets/4fb3dd37-ce11-4fbb-afaa-a36d940f5d7f" />
+
+
 Требования:
 - сервер Unix, в данном случае использовалась конфигурация python 3.12/FreeBSD 14.3
 - права для администрирования Apache (опционально, если нет - можно запускать http://domain.ext:5000)
@@ -44,3 +47,5 @@ How to:
 - Set it to run continuously, for example, using supervisor, or run it in screen
 - By default, it runs at http://domain.ext:5000 (not https!), but you can configure it to use the standard port 80 via Apache/nginx. Changing this requires different IP addresses in the configuration files: 0.0.0.0 by default, and 127.0.0.1 via Apache.
 - Optionally, you can configure Apache.
+
+<img width="1272" height="698" alt="Screenshot 2025-11-17 213704" src="https://github.com/user-attachments/assets/89609e6d-7f2c-458b-98a1-33c43dc905df" />
