@@ -47,5 +47,3 @@ How to:
 - Set it to run continuously, for example, using supervisor, or run it in screen
 - By default, it runs at http://domain.ext:5000 (not https!), but you can configure it to use the standard port 80 via Apache/nginx. Changing this requires different IP addresses in the configuration files: 0.0.0.0 by default, and 127.0.0.1 via Apache.
 - Optionally, you can configure Apache.
-
-<img width="1272" height="698" alt="Screenshot 2025-11-17 213704" src="https://github.com/user-attachments/assets/89609e6d-7f2c-458b-98a1-33c43dc905df" />
