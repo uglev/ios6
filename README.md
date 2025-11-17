@@ -1,8 +1,8 @@
 # ios6
 Telegram/mail client for older versions of iPhone 4s (iOS 6)
 
-Вы фанат стареньких iPhone, в частности, iPhone 4s на iOS 6.1.3? Уже давно не работает Telegram и почта, а вы всё хотите им пользоваться? Тогда проект для Вас.
-Итак, что он может. Вы заходите на свой сайт http://yoursite.com (http!), и читаете все свежие новости с почты и Телеграмма и даже отвечаете на них! А если не отвечаете, тогда сообщение сразу отправляется в папку "Избранное" Телеграмма.
+Вы фанат стареньких iPhone, в частности, iPhone 4s на iOS 6.1.3? Уже давно не работает Telegram и почта, а вы всё хотите им пользоваться? Тогда проект для Вас. Для работы нужен старенький Safari без https, свой хостинг для размещения проекта и домен (или его подпапка).
+Итак, что он может. Вы заходите на свой сайт - например http://yoursite.com (http!), и читаете все свежие новости с почты и Телеграмма и даже отвечаете на них! А если не отвечаете, тогда сообщение сразу отправляется в папку "Избранное" Телеграмма.
 
 <img width="660" height="832" alt="Screenshot 2025-11-17 213900" src="https://github.com/user-attachments/assets/4fb3dd37-ce11-4fbb-afaa-a36d940f5d7f" />
 
@@ -28,7 +28,7 @@ Telegram/mail client for older versions of iPhone 4s (iOS 6)
     ProxyPassReverse / http://127.0.0.1:5000
 
 </VirtualHost>
-
+Не забудьте защитить публичный домен паролем, поскольку он предназначен только для личного использования.
 ---
 Are you a fan of older iPhones, particularly the iPhone 4s running iOS 6.1.3? Telegram and email have been down for a while, but you still want to use them? Then this project is for you.
 
