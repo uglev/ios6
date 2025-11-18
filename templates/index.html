@@ -50,7 +50,13 @@
             margin-bottom: 8px;
             font-size: 14px;
         }
-        
+        .message-date {
+			color: #666;
+			font-size: 0.8em;
+			margin-top: 8px;
+			text-align: left;
+			padding-left: 5px;
+		}
         .message-source {
             display: inline-block;
             padding: 2px 8px;
@@ -199,6 +205,51 @@
     <script>
         var currentReplyTo = null;
         var messages = [];
+		
+		    // 1. Сначала — вспомогательные функции
+		function escapeHtml(text) {
+			if (text == null) {
+				return '';
+			}
+			var div = document.createElement('div');
+			div.appendChild(document.createTextNode(String(text)));
+			return div.innerHTML;
+		}
+
+		function formatDate(isoString) {
+			if (!isoString || typeof isoString !== 'string') {
+				return 'Unknown date';
+			}
+
+			// Нормализуем смещение: +03:00 → +0300 (для корректного разбора Date)
+			const normalized = isoString.replace(/([+-]\d{2}):(\d{2})(?!:)/, '$1$2');
+			
+			try {
+				const date = new Date(normalized);
+				if (isNaN(date.getTime())) {
+					return 'Invalid date';
+				}
+
+				const days = date.getDate();
+				const year = date.getFullYear();
+				const hours = String(date.getHours()).padStart(2, '0');
+				const minutes = String(date.getMinutes()).padStart(2, '0');
+
+				// Массив названий месяцев на русском
+				const months = [
+					'января', 'февраля', 'марта', 'апреля', 'мая', 'июня',
+					'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря'
+				];
+				const monthName = months[date.getMonth()];
+
+				// Формируем итоговую строку: 18 ноября 2025 г., 16:49
+				return `${days} ${monthName} ${year} г., ${hours}:${minutes}`;
+
+			} catch (e) {
+				return 'Unknown date';
+			}
+		}
+
         
         function loadMessages() {
             var xhr = new XMLHttpRequest();
@@ -217,34 +268,45 @@
             xhr.send();
         }
         
-        function renderMessages() {
-            var container = document.getElementById('messages');
-            
-            if (messages.length === 0) {
-                container.innerHTML = '<div class="loading">No messages found</div>';
-                return;
-            }
-            
-            var html = '';
-            for (var i = 0; i < messages.length; i++) {
-                var msg = messages[i];
-                var sourceClass = msg.source === 'Telegram' ? 'source-telegram' : 'source-email';
-                
-                html += '<div class="message">';
-                html += '<div class="message-header">';
-                html += '<span class="message-source ' + sourceClass + '">' + escapeHtml(msg.source) + '</span>';
-                html += '<span>' + escapeHtml(msg.source_name) + '</span>';
-                html += '</div>';
-                html += '<div class="message-text">' + escapeHtml(msg.text) + '</div>';
-                html += '<div class="message-footer">';
-                html += '<button class="btn reply-btn" data-msg-id="' + escapeHtml(msg.id) + '" data-source-name="' + escapeHtml(msg.source_name) + '" data-source="' + escapeHtml(msg.source) + '">Reply</button>';
-                html += '</div>';
-                html += '</div>';
-            }
-            
-            container.innerHTML = html;
-            attachReplyHandlers();
-        }
+		function renderMessages() {
+			var container = document.getElementById('messages');
+			
+			if (messages.length === 0) {
+				container.innerHTML = '<div class="loading">No messages found</div>';
+				return;
+			}
+			
+			var html = '';
+			for (var i = 0; i < messages.length; i++) {
+				var msg = messages[i];
+				var sourceClass = msg.source === 'Telegram' ? 'source-telegram' : 'source-email';
+				
+				html += '<div class="message">';
+				html += '<div class="message-header">';
+				html += '<span class="message-source ' + sourceClass + '">' + escapeHtml(msg.source) + '</span>';
+				html += '<span>' + escapeHtml(msg.source_name) + '</span>';
+				html += '</div>';
+				html += '<div class="message-text">' + escapeHtml(msg.text) + '</div>';
+				
+				// Безопасное добавление даты
+				if (msg.date) {
+					html += '<div class="message-date">' + formatDate(msg.date) + '</div>';
+				} else {
+					html += '<div class="message-date">Unknown date</div>';
+				}
+				
+				html += '<div class="message-footer">';
+				html += '<button class="btn reply-btn" data-msg-id="' + escapeHtml(msg.id) + 
+						 '" data-source-name="' + escapeHtml(msg.source_name) +
+						 '" data-source="' + escapeHtml(msg.source) + '">Reply</button>';
+				html += '</div>';
+				html += '</div>';
+			}
+			
+			container.innerHTML = html;
+			attachReplyHandlers();
+		}
+
         
         function attachReplyHandlers() {
             var replyButtons = document.getElementsByClassName('reply-btn');
